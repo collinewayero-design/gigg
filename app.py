@@ -626,6 +626,9 @@ def init_db():
 # ============================================
 # RUN APPLICATION
 # ============================================
-if __name__ == '__main__':
-    init_db()
-    app.run(debug=True, host='0.0.0.0', port=5000)
+
+if __name__ == "__main__":
+    # Use the port Render gives you, or 10000 as a fallback
+    port = int(os.environ.get("PORT", 10000))
+    # Set debug to False for production
+    app.run(host='0.0.0.0', port=port, debug=False)
