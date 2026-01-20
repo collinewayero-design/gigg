@@ -1,0 +1,177 @@
+{% extends "base.html" %}
+
+{% block title %}Leaderboard - GigSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .leaderboard-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+    }
+    
+    .leaderboard-header {
+        text-align: center;
+        margin-bottom: 3rem;
+    }
+    
+    .leaderboard-header h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .leaderboard-header p {
+        color: var(--color-slate-500);
+        font-size: 1.125rem;
+    }
+    
+    .leaderboard-card {
+        background: white;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        box-shadow: var(--shadow-xl);
+        border: 1px solid var(--color-slate-100);
+    }
+    
+    .leaderboard-item {
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+        padding: 1.25rem 1.5rem;
+        border-bottom: 1px solid var(--color-slate-50);
+        transition: background 0.2s;
+    }
+    
+    .leaderboard-item:hover {
+        background: var(--color-slate-50);
+    }
+    
+    .leaderboard-item:last-child {
+        border-bottom: none;
+    }
+    
+    .leaderboard-item.top-3 {
+        background: linear-gradient(90deg, rgba(255, 215, 0, 0.05), transparent);
+    }
+    
+    .rank {
+        width: 40px;
+        text-align: center;
+        font-size: 1.5rem;
+        font-weight: 800;
+        color: var(--color-slate-300);
+    }
+    
+    .rank.medal {
+        font-size: 2rem;
+    }
+    
+    .user-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        border: 3px solid white;
+        box-shadow: var(--shadow-md);
+        object-fit: cover;
+    }
+    
+    .leaderboard-item.top-3 .user-avatar {
+        border-color: gold;
+    }
+    
+    .user-info {
+        flex: 1;
+    }
+    
+    .username {
+        font-weight: 700;
+        font-size: 1.125rem;
+        color: var(--color-slate-900);
+        margin-bottom: 0.25rem;
+    }
+    
+    .user-subtitle {
+        font-size: 0.75rem;
+        color: var(--color-slate-400);
+    }
+    
+    .user-coins {
+        text-align: right;
+    }
+    
+    .coins-amount {
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--color-brand-600);
+        font-family: 'Courier New', monospace;
+    }
+    
+    .coins-label {
+        font-size: 0.75rem;
+        color: var(--color-slate-400);
+    }
+    
+    .loading {
+        text-align: center;
+        padding: 3rem;
+        color: var(--color-slate-500);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="leaderboard-container">
+    <div class="leaderboard-header">
+        <h1>🏆 Top Earners</h1>
+        <p>Global Rankings</p>
+    </div>
+    
+    <div class="leaderboard-card" id="leaderboard-list">
+        <div class="loading">Loading leaderboard...</div>
+    </div>
+</div>
+
+<script>
+// Load Leaderboard
+async function loadLeaderboard() {
+    try {
+        const result = await apiCall('/leaderboard');
+        const container = document.getElementById('leaderboard-list');
+        
+        if (result.leaderboard.length === 0) {
+            container.innerHTML = '<div class="loading">No users yet</div>';
+            return;
+        }
+        
+        container.innerHTML = result.leaderboard.map(entry => {
+            const medals = ['🥇', '🥈', '🥉'];
+            const rankDisplay = entry.rank <= 3 
+                ? `<span class="medal">${medals[entry.rank - 1]}</span>`
+                : `#${entry.rank}`;
+            
+            const topClass = entry.rank <= 3 ? 'top-3' : '';
+            
+            return `
+                <div class="leaderboard-item ${topClass}">
+                    <div class="rank">${rankDisplay}</div>
+                    <img src="${entry.avatarUrl}" alt="${entry.username}" class="user-avatar">
+                    <div class="user-info">
+                        <div class="username">${entry.username}</div>
+                        <div class="user-subtitle">Total Wealth</div>
+                    </div>
+                    <div class="user-coins">
+                        <div class="coins-amount">${formatNumber(entry.coins)} GC</div>
+                        <div class="coins-label">≈ $${(entry.coins / 250).toFixed(2)}</div>
+                    </div>
+                </div>
+            `;
+        }).join('');
+        
+    } catch (error) {
+        showToast('Error loading leaderboard', 'error');
+    }
+}
+
+loadLeaderboard();
+</script>
+{% endblock %}

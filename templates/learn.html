@@ -1,0 +1,220 @@
+{% extends "base.html" %}
+
+{% block title %}Academy - GigSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .learn-container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+    }
+    
+    .learn-header {
+        margin-bottom: 2rem;
+    }
+    
+    .learn-header h1 {
+        font-size: 2.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .learn-header p {
+        color: var(--color-slate-500);
+        font-size: 1.125rem;
+    }
+    
+    .courses-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .course-card {
+        background: white;
+        border-radius: 1.5rem;
+        overflow: hidden;
+        border: 2px solid var(--color-slate-100);
+        transition: all 0.3s;
+        cursor: pointer;
+    }
+    
+    .course-card:hover {
+        border-color: var(--color-brand-200);
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-xl);
+    }
+    
+    .course-thumbnail {
+        height: 200px;
+        background: linear-gradient(135deg, var(--color-brand-500), #764ba2);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .course-thumbnail img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+    
+    .course-card:hover .course-thumbnail img {
+        transform: scale(1.1);
+    }
+    
+    .course-content {
+        padding: 1.5rem;
+    }
+    
+    .course-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--color-slate-900);
+        margin-bottom: 1rem;
+    }
+    
+    .course-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 0.875rem;
+        color: var(--color-slate-500);
+        margin-bottom: 1rem;
+    }
+    
+    .progress-bar {
+        width: 100%;
+        height: 8px;
+        background: var(--color-slate-100);
+        border-radius: 9999px;
+        overflow: hidden;
+        margin-bottom: 0.5rem;
+    }
+    
+    .progress-fill {
+        height: 100%;
+        background: var(--color-brand-500);
+        border-radius: 9999px;
+        transition: width 0.3s;
+    }
+    
+    .progress-text {
+        font-size: 0.75rem;
+        color: var(--color-slate-500);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="learn-container">
+    <div class="learn-header">
+        <h1>🎓 Academy</h1>
+        <p>Master the art of digital earning</p>
+    </div>
+    
+    <div class="courses-grid">
+        <div class="course-card">
+            <div class="course-thumbnail">
+                <img src="https://images.unsplash.com/photo-1518546305927-5a555bb7020d?w=400" alt="Crypto Basics">
+            </div>
+            <div class="course-content">
+                <h3 class="course-title">Crypto Basics</h3>
+                <div class="course-meta">
+                    <span>5 Modules</span>
+                    <span>2h 30m</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 100%"></div>
+                </div>
+                <p class="progress-text">100% Complete • Certificate Earned ✓</p>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-thumbnail">
+                <img src="https://images.unsplash.com/photo-1557838923-2985c318be48?w=400" alt="Affiliate Marketing">
+            </div>
+            <div class="course-content">
+                <h3 class="course-title">Affiliate Marketing 101</h3>
+                <div class="course-meta">
+                    <span>12 Modules</span>
+                    <span>6h 15m</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 45%"></div>
+                </div>
+                <p class="progress-text">45% Complete • 5 of 12 modules</p>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-thumbnail">
+                <img src="https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=400" alt="Content Creation">
+            </div>
+            <div class="course-content">
+                <h3 class="course-title">Content Creation Masterclass</h3>
+                <div class="course-meta">
+                    <span>8 Modules</span>
+                    <span>4h 45m</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <p class="progress-text">Start Course</p>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-thumbnail">
+                <img src="https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=400" alt="Passive Income">
+            </div>
+            <div class="course-content">
+                <h3 class="course-title">Building Passive Income Streams</h3>
+                <div class="course-meta">
+                    <span>10 Modules</span>
+                    <span>5h 00m</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <p class="progress-text">Start Course</p>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-thumbnail">
+                <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400" alt="Math">
+            </div>
+            <div class="course-content">
+                <h3 class="course-title">Financial Literacy Fundamentals</h3>
+                <div class="course-meta">
+                    <span>6 Modules</span>
+                    <span>3h 20m</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <p class="progress-text">Start Course</p>
+            </div>
+        </div>
+        
+        <div class="course-card">
+            <div class="course-thumbnail">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400" alt="Analytics">
+            </div>
+            <div class="course-content">
+                <h3 class="course-title">Data Analytics for Beginners</h3>
+                <div class="course-meta">
+                    <span>7 Modules</span>
+                    <span>3h 45m</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill" style="width: 0%"></div>
+                </div>
+                <p class="progress-text">Start Course</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,249 @@
+{% extends "base.html" %}
+
+{% block title %}Sign In - GigSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .auth-page {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 2rem 1rem;
+    }
+    
+    .auth-card {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(16px);
+        border-radius: 1.5rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        padding: 3rem;
+        width: 100%;
+        max-width: 480px;
+    }
+    
+    .auth-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+    
+    .auth-logo {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .auth-logo span {
+        font-family: var(--font-serif);
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: var(--color-slate-900);
+    }
+    
+    .auth-title {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        color: var(--color-slate-900);
+    }
+    
+    .auth-subtitle {
+        color: var(--color-slate-500);
+        font-size: 0.95rem;
+    }
+    
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .form-label {
+        display: block;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--color-slate-700);
+        margin-bottom: 0.5rem;
+    }
+    
+    .form-input {
+        width: 100%;
+        padding: 0.875rem 1rem;
+        border: 2px solid var(--color-slate-200);
+        border-radius: 0.75rem;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+        font-family: var(--font-sans);
+    }
+    
+    .form-input:focus {
+        outline: none;
+        border-color: var(--color-brand-500);
+        box-shadow: 0 0 0 3px rgba(0, 128, 255, 0.1);
+    }
+    
+    .auth-divider {
+        position: relative;
+        text-align: center;
+        margin: 1.5rem 0;
+    }
+    
+    .auth-divider::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 50%;
+        width: 100%;
+        height: 1px;
+        background: var(--color-slate-200);
+    }
+    
+    .auth-divider span {
+        position: relative;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 0 1rem;
+        color: var(--color-slate-500);
+        font-size: 0.875rem;
+    }
+    
+    .oauth-buttons {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .oauth-btn {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding: 0.75rem;
+        border: 2px solid var(--color-slate-200);
+        border-radius: 0.75rem;
+        background: white;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--color-slate-700);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .oauth-btn:hover {
+        border-color: var(--color-slate-300);
+        background: var(--color-slate-50);
+    }
+    
+    .auth-toggle {
+        text-align: center;
+        margin-top: 1.5rem;
+        color: var(--color-slate-600);
+        font-size: 0.875rem;
+    }
+    
+    .auth-toggle-btn {
+        background: none;
+        border: none;
+        color: var(--color-brand-600);
+        font-weight: 700;
+        cursor: pointer;
+        padding: 0;
+        text-decoration: underline;
+    }
+    
+    .auth-toggle-btn:hover {
+        color: var(--color-brand-700);
+    }
+    
+    .submit-btn {
+        width: 100%;
+        padding: 1rem;
+        background: var(--color-brand-500);
+        color: white;
+        border: none;
+        border-radius: 0.75rem;
+        font-weight: 700;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .submit-btn:hover:not(:disabled) {
+        background: var(--color-brand-600);
+        transform: translateY(-2px);
+        box-shadow: 0 8px 20px rgba(0, 128, 255, 0.3);
+    }
+    
+    .submit-btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-card">
+        <div class="auth-header">
+            <div class="auth-logo">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="20" fill="#1C1B1A"/>
+                    <path d="M21 20H26C26 24 23.5 27 20 27C16.134 27 13 23.866 13 20C13 16.134 16.134 13 20 13C22.5 13 24.5 14.2 25.8 16" 
+                        stroke="#F97316" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M26.5 12.5L25.8 16L22.5 16.5" 
+                        stroke="#F97316" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span>GigSpace</span>
+            </div>
+            
+            <h1 class="auth-title" id="auth-title">Welcome Back</h1>
+            <p class="auth-subtitle">Enter your credentials to access your command center.</p>
+        </div>
+        
+        <form id="auth-form">
+            <div class="form-group" id="username-field" style="display: none;">
+                <label class="form-label" for="username">Username</label>
+                <input type="text" id="username" class="form-input" placeholder="johndoe">
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="email">Email Address</label>
+                <input type="email" id="email" class="form-input" placeholder="you@example.com" required>
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="password">Password</label>
+                <input type="password" id="password" class="form-input" placeholder="••••••••" required>
+            </div>
+            
+            <button type="submit" class="submit-btn" id="auth-button">Log In</button>
+        </form>
+        
+        <div class="auth-divider">
+            <span>Or continue with</span>
+        </div>
+        
+        <div class="oauth-buttons">
+            <button class="oauth-btn" onclick="alert('OAuth coming soon!')">
+                <svg width="20" height="20" viewBox="0 0 24 24">
+                    <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                    <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                    <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.26.81-.58z" fill="#FBBC05"/>
+                    <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z" fill="#EA4335"/>
+                </svg>
+                Google
+            </button>
+            <button class="oauth-btn" onclick="alert('OAuth coming soon!')">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                </svg>
+                GitHub
+            </button>
+        </div>
+        
+        <div class="auth-toggle" id="auth-toggle">
+            Don't have an account? <button type="button" onclick="toggleAuthMode()" class="auth-toggle-btn">Sign Up</button>
+        </div>
+    </div>
+</div>
+{% endblock %}

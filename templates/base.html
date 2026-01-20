@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}GigSpace - Digital Economy{% endblock %}</title>
+    
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Merriweather:wght@300;400;700&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    
+    {% block extra_css %}{% endblock %}
+</head>
+<body>
+    <!-- Navigation -->
+    {% if current_user.is_authenticated %}
+    <nav class="navbar glass-panel">
+        <div class="nav-container">
+            <div class="nav-logo" onclick="window.location.href='{{ url_for('dashboard') }}'">
+                <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                    <circle cx="20" cy="20" r="20" class="fill-slate-900"/>
+                    <path d="M21 20H26C26 24 23.5 27 20 27C16.134 27 13 23.866 13 20C13 16.134 16.134 13 20 13C22.5 13 24.5 14.2 25.8 16" 
+                        stroke="#F97316" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                    <path d="M26.5 12.5L25.8 16L22.5 16.5" 
+                        stroke="#F97316" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+                <span class="nav-brand">GigSpace</span>
+            </div>
+            
+            <div class="nav-balance">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                    <circle cx="12" cy="12" r="10" opacity="0.3"/>
+                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1.41 16.09V20h-2.67v-1.93c-1.71-.36-3.16-1.46-3.27-3.4h1.96c.1 1.05.82 1.87 2.65 1.87 1.96 0 2.4-.98 2.4-1.59 0-.83-.44-1.61-2.67-2.14-2.48-.6-4.18-1.62-4.18-3.67 0-1.72 1.39-2.84 3.11-3.21V4h2.67v1.95c1.86.45 2.79 1.86 2.85 3.39H14.3c-.05-1.11-.64-1.87-2.22-1.87-1.5 0-2.4.68-2.4 1.64 0 .84.65 1.39 2.67 1.91s4.18 1.39 4.18 3.91c-.01 1.83-1.38 2.83-3.12 3.16z"/>
+                </svg>
+                <span id="nav-balance">0</span>
+            </div>
+            
+            <div class="nav-links desktop-nav">
+                <a href="{{ url_for('dashboard') }}" class="nav-link">Dashboard</a>
+                <a href="{{ url_for('earn_page') }}" class="nav-link">Earn</a>
+                <a href="{{ url_for('shop_page') }}" class="nav-link">Shop</a>
+                <a href="{{ url_for('learn_page') }}" class="nav-link">Learn</a>
+                <a href="{{ url_for('leaderboard_page') }}" class="nav-link">Rankings</a>
+                {% if current_user.role in ['ADMIN', 'OWNER'] %}
+                <a href="{{ url_for('admin_page') }}" class="nav-link admin-link">God Mode</a>
+                {% endif %}
+                <a href="{{ url_for('profile_page') }}" class="nav-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                </a>
+                <button onclick="logout()" class="nav-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                        <polyline points="16 17 21 12 16 7"></polyline>
+                        <line x1="21" y1="12" x2="9" y2="12"></line>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </nav>
+    
+    <!-- Mobile Bottom Nav -->
+    <div class="mobile-nav">
+        <a href="{{ url_for('dashboard') }}" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="7" height="7"></rect>
+                <rect x="14" y="3" width="7" height="7"></rect>
+                <rect x="14" y="14" width="7" height="7"></rect>
+                <rect x="3" y="14" width="7" height="7"></rect>
+            </svg>
+        </a>
+        <a href="{{ url_for('earn_page') }}" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"></circle>
+                <polygon points="10 8 16 12 10 16 10 8"></polygon>
+            </svg>
+        </a>
+        <a href="{{ url_for('shop_page') }}" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                <line x1="3" y1="6" x2="21" y2="6"></line>
+                <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+        </a>
+        <a href="{{ url_for('learn_page') }}" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M22 10v6M2 10l10-5 10 5-10 5z"></path>
+                <path d="M6 12v5c3 3 9 3 12 0v-5"></path>
+            </svg>
+        </a>
+        <a href="{{ url_for('leaderboard_page') }}" class="mobile-nav-item">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9H4.5a2.5 2.5 0 0 1 0-5H6"></path>
+                <path d="M18 9h1.5a2.5 2.5 0 0 0 0-5H18"></path>
+                <path d="M4 22h16"></path>
+                <path d="M10 14.66V17c0 .55-.47.98-.97 1.21C7.85 18.75 7 20.24 7 22"></path>
+                <path d="M14 14.66V17c0 .55.47.98.97 1.21C16.15 18.75 17 20.24 17 22"></path>
+                <path d="M18 2H6v7a6 6 0 0 0 12 0V2z"></path>
+            </svg>
+        </a>
+    </div>
+    {% endif %}
+    
+    <!-- Toast Container -->
+    <div id="toast-container"></div>
+    
+    <!-- Main Content -->
+    <main class="{% if current_user.is_authenticated %}main-content{% endif %}">
+        {% block content %}{% endblock %}
+    </main>
+    
+    <!-- Scripts -->
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+    {% block extra_js %}{% endblock %}
+    
+    <script>
+        // Update nav balance if user is authenticated
+        {% if current_user.is_authenticated %}
+        const navBalance = document.getElementById('nav-balance');
+        if (navBalance) {
+            navBalance.textContent = {{ current_user.balance }}.toLocaleString();
+        }
+        {% endif %}
+    </script>
+</body>
+</html>

@@ -1,0 +1,322 @@
+{% extends "base.html" %}
+
+{% block title %}Admin - GigSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .admin-container {
+        max-width: 1600px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+        background: var(--color-slate-900);
+        min-height: 100vh;
+        color: white;
+        border-radius: 1.5rem;
+        margin-top: 1rem;
+    }
+    
+    .admin-header {
+        padding-bottom: 2rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        margin-bottom: 2rem;
+    }
+    
+    .admin-header h1 {
+        font-family: 'Courier New', monospace;
+        font-size: 2.5rem;
+        background: linear-gradient(135deg, #22d3ee, #a855f7);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 0.5rem;
+    }
+    
+    .admin-subtitle {
+        color: rgba(255, 255, 255, 0.5);
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+    }
+    
+    .quick-actions {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .action-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .action-card:hover {
+        background: rgba(255, 255, 255, 0.1);
+        transform: translateY(-2px);
+    }
+    
+    .action-card.danger {
+        background: rgba(239, 68, 68, 0.1);
+        border-color: rgba(239, 68, 68, 0.3);
+    }
+    
+    .action-card.success {
+        background: rgba(16, 185, 129, 0.1);
+        border-color: rgba(16, 185, 129, 0.3);
+    }
+    
+    .action-title {
+        font-weight: 700;
+        font-size: 0.875rem;
+        margin-bottom: 0.25rem;
+    }
+    
+    .action-card.danger .action-title {
+        color: #fca5a5;
+    }
+    
+    .action-card.success .action-title {
+        color: #6ee7b7;
+    }
+    
+    .action-desc {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+    }
+    
+    .stat-card {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 1.5rem;
+    }
+    
+    .stat-label {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        font-family: 'Courier New', monospace;
+    }
+    
+    .admin-section {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 1rem;
+        padding: 2rem;
+        margin-bottom: 2rem;
+    }
+    
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .section-title {
+        font-size: 1.25rem;
+        font-weight: 700;
+    }
+    
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+    
+    .admin-table th {
+        text-align: left;
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 0.875rem;
+        color: rgba(255, 255, 255, 0.5);
+        font-weight: 600;
+    }
+    
+    .admin-table td {
+        padding: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+    
+    .admin-table tr:hover {
+        background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .badge-admin {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 700;
+    }
+    
+    .badge-admin.success {
+        background: rgba(16, 185, 129, 0.2);
+        color: #6ee7b7;
+    }
+    
+    .badge-admin.danger {
+        background: rgba(239, 68, 68, 0.2);
+        color: #fca5a5;
+    }
+    
+    .admin-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        font-size: 0.875rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .admin-btn:hover {
+        background: rgba(255, 255, 255, 0.2);
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="admin-container">
+    <div class="admin-header">
+        <h1>GOD MODE_</h1>
+        <p class="admin-subtitle">System Overview & Control</p>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="quick-actions">
+        <div class="action-card danger">
+            <div class="action-title">🔒 Lock Economy</div>
+            <div class="action-desc">Pause all transactions</div>
+        </div>
+        
+        <div class="action-card success" onclick="mintCoins()">
+            <div class="action-title">💰 Admin Grant</div>
+            <div class="action-desc">Inject 1,000 GC to self</div>
+        </div>
+        
+        <div class="action-card">
+            <div class="action-title">📊 Export Data</div>
+            <div class="action-desc">Download full database</div>
+        </div>
+        
+        <div class="action-card">
+            <div class="action-title">🔄 System Health</div>
+            <div class="action-desc">All systems operational</div>
+        </div>
+    </div>
+    
+    <!-- Stats Grid -->
+    <div class="stats-grid">
+        <div class="stat-card">
+            <div class="stat-label">Total Users</div>
+            <div class="stat-value">1,247</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Total Coins</div>
+            <div class="stat-value">{{ user.balance }}</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Tasks Completed</div>
+            <div class="stat-value">8,932</div>
+        </div>
+        
+        <div class="stat-card">
+            <div class="stat-label">Revenue (USD)</div>
+            <div class="stat-value">${{ "%.2f"|format(user.balance / 250) }}</div>
+        </div>
+    </div>
+    
+    <!-- Recent Users -->
+    <div class="admin-section">
+        <div class="section-header">
+            <h3 class="section-title">👥 Recent Users</h3>
+            <button class="admin-btn">View All</button>
+        </div>
+        
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Balance</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>
+                        <div style="display: flex; align-items: center; gap: 0.75rem;">
+                            <img src="https://i.pravatar.cc/40?u=1" style="width: 32px; height: 32px; border-radius: 50%;" alt="User">
+                            <span>{{ user.username }}</span>
+                        </div>
+                    </td>
+                    <td>{{ user.email }}</td>
+                    <td><span class="badge-admin success">{{ user.role }}</span></td>
+                    <td>{{ user.balance }} GC</td>
+                    <td><span class="badge-admin success">Active</span></td>
+                    <td>
+                        <button class="admin-btn">Edit</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    
+    <!-- System Logs -->
+    <div class="admin-section">
+        <div class="section-header">
+            <h3 class="section-title">📜 System Logs</h3>
+            <button class="admin-btn">Clear Logs</button>
+        </div>
+        
+        <div style="font-family: 'Courier New', monospace; font-size: 0.875rem; color: rgba(255, 255, 255, 0.7);">
+            <div style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                [INFO] Database connection established
+            </div>
+            <div style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                [INFO] User {{ user.username }} logged in
+            </div>
+            <div style="padding: 0.5rem 0; border-bottom: 1px solid rgba(255, 255, 255, 0.05);">
+                [SUCCESS] Task completed by user {{ user.id }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+async function mintCoins() {
+    if (!confirm('Mint 1,000 GC to your account?')) return;
+    
+    try {
+        const result = await apiCall('/admin/mint', 'POST', { amount: 1000 });
+        showToast(result.message, 'success');
+        updateBalance(result.new_balance);
+    } catch (error) {
+        showToast(error.message, 'error');
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,294 @@
+{% extends "base.html" %}
+
+{% block title %}Wallet - GigSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .wallet-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+    }
+    
+    .wallet-header {
+        margin-bottom: 2rem;
+    }
+    
+    .wallet-header h1 {
+        font-size: 2.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .wallet-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
+    }
+    
+    .wallet-card {
+        background: linear-gradient(135deg, var(--color-slate-900), var(--color-slate-800));
+        color: white;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .wallet-card::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        right: -20%;
+        width: 200px;
+        height: 200px;
+        background: var(--color-brand-500);
+        opacity: 0.15;
+        border-radius: 50%;
+        filter: blur(60px);
+    }
+    
+    .wallet-label {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        opacity: 0.7;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .wallet-balance {
+        font-size: 3rem;
+        font-weight: 800;
+        font-family: 'Courier New', monospace;
+        margin-bottom: 0.5rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .wallet-usd {
+        color: rgba(255, 255, 255, 0.6);
+        margin-bottom: 1.5rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .wallet-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.75rem;
+        position: relative;
+        z-index: 1;
+    }
+    
+    .wallet-btn {
+        padding: 0.875rem;
+        border-radius: 0.75rem;
+        border: none;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .wallet-btn.primary {
+        background: white;
+        color: var(--color-slate-900);
+    }
+    
+    .wallet-btn.secondary {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .wallet-btn:hover {
+        transform: translateY(-2px);
+    }
+    
+    .quick-actions {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        border: 1px solid var(--color-slate-100);
+    }
+    
+    .quick-actions h3 {
+        font-size: 1.125rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .action-item {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem;
+        border-radius: 0.75rem;
+        margin-bottom: 0.75rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .action-item:hover {
+        background: var(--color-slate-50);
+    }
+    
+    .action-icon {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.25rem;
+    }
+    
+    .action-icon.gift {
+        background: rgba(0, 128, 255, 0.1);
+        color: var(--color-brand-600);
+    }
+    
+    .action-icon.refer {
+        background: rgba(147, 51, 234, 0.1);
+        color: #9333ea;
+    }
+    
+    .action-title {
+        font-weight: 700;
+        color: var(--color-slate-800);
+    }
+    
+    .transactions-card {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        border: 1px solid var(--color-slate-100);
+    }
+    
+    .transactions-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+    
+    .transactions-header h3 {
+        font-size: 1.25rem;
+    }
+    
+    .filter-tabs {
+        display: flex;
+        gap: 0.5rem;
+        background: var(--color-slate-50);
+        padding: 0.25rem;
+        border-radius: 0.75rem;
+    }
+    
+    .filter-tab {
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        background: transparent;
+        font-weight: 600;
+        font-size: 0.875rem;
+        color: var(--color-slate-600);
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .filter-tab.active {
+        background: white;
+        color: var(--color-brand-600);
+        box-shadow: var(--shadow-sm);
+    }
+    
+    @media (max-width: 768px) {
+        .wallet-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="wallet-container">
+    <div class="wallet-header">
+        <h1>💼 Wallet & History</h1>
+    </div>
+    
+    <div class="wallet-grid">
+        <div class="wallet-card">
+            <div class="wallet-label">
+                💰 Main Account
+            </div>
+            <div class="wallet-balance">{{ user.balance }} GC</div>
+            <div class="wallet-usd">≈ ${{ "%.2f"|format(user.balance / 250) }} USD</div>
+            <div class="wallet-actions">
+                <button class="wallet-btn primary" onclick="alert('Deposit coming soon!')">Deposit</button>
+                <button class="wallet-btn secondary" onclick="alert('Withdraw coming soon!')">Withdraw</button>
+            </div>
+        </div>
+        
+        <div class="quick-actions">
+            <h3>Quick Actions</h3>
+            <div class="action-item" onclick="window.location.href='/shop'">
+                <div class="action-icon gift">🎁</div>
+                <div class="action-title">Redeem Gift Card</div>
+            </div>
+            <div class="action-item" onclick="alert('Referral program coming soon!')">
+                <div class="action-icon refer">👥</div>
+                <div class="action-title">Refer a Friend</div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="transactions-card">
+        <div class="transactions-header">
+            <h3>📜 Transaction History</h3>
+            <div class="filter-tabs">
+                <button class="filter-tab active">All</button>
+                <button class="filter-tab">Earned</button>
+                <button class="filter-tab">Spent</button>
+            </div>
+        </div>
+        
+        <div id="all-transactions">
+            <p style="text-align: center; color: var(--color-slate-500); padding: 2rem;">Loading transactions...</p>
+        </div>
+    </div>
+</div>
+
+<script>
+async function loadAllTransactions() {
+    try {
+        const result = await apiCall('/transactions');
+        const container = document.getElementById('all-transactions');
+        
+        if (result.transactions.length === 0) {
+            container.innerHTML = '<p style="text-align: center; color: var(--color-slate-400); padding: 2rem;">No transactions found.</p>';
+            return;
+        }
+        
+        container.innerHTML = result.transactions.map(tx => `
+            <div class="transaction-item">
+                <div class="transaction-info">
+                    <div class="transaction-icon ${tx.type.toLowerCase()}">${tx.type === 'EARN' ? '↑' : '↓'}</div>
+                    <div>
+                        <div class="transaction-desc">${tx.description}</div>
+                        <div class="transaction-date">${tx.timestamp} • ${tx.status}</div>
+                    </div>
+                </div>
+                <div class="transaction-amount ${tx.type.toLowerCase()}">
+                    ${tx.type === 'EARN' ? '+' : '-'}${formatNumber(tx.amount)}
+                </div>
+            </div>
+        `).join('');
+        
+    } catch (error) {
+        showToast('Error loading transactions', 'error');
+    }
+}
+
+loadAllTransactions();
+</script>
+{% endblock %}

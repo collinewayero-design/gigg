@@ -1,0 +1,278 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - GigSpace{% endblock %}
+
+{% block extra_css %}
+<style>
+    .profile-container {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem;
+    }
+    
+    .profile-header {
+        margin-bottom: 2rem;
+    }
+    
+    .profile-header h1 {
+        font-size: 2.25rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .profile-card {
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2.5rem;
+        box-shadow: var(--shadow-md);
+        border: 1px solid var(--color-slate-100);
+    }
+    
+    .profile-section {
+        display: grid;
+        grid-template-columns: auto 1fr;
+        gap: 2rem;
+        align-items: start;
+    }
+    
+    .avatar-section {
+        position: relative;
+    }
+    
+    .profile-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        border: 5px solid var(--color-slate-100);
+        box-shadow: var(--shadow-lg);
+        object-fit: cover;
+    }
+    
+    .avatar-upload {
+        position: absolute;
+        bottom: 0;
+        right: 0;
+        width: 48px;
+        height: 48px;
+        background: var(--color-brand-600);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        box-shadow: var(--shadow-md);
+        transition: all 0.2s;
+    }
+    
+    .avatar-upload:hover {
+        background: var(--color-brand-700);
+        transform: scale(1.1);
+    }
+    
+    .profile-fields {
+        width: 100%;
+    }
+    
+    .field-group {
+        margin-bottom: 1.5rem;
+    }
+    
+    .field-label {
+        display: block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        color: var(--color-slate-400);
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        margin-bottom: 0.5rem;
+    }
+    
+    .field-value {
+        display: flex;
+        gap: 0.75rem;
+    }
+    
+    .field-input {
+        flex: 1;
+        padding: 0.875rem 1rem;
+        border: 2px solid var(--color-slate-200);
+        border-radius: 0.75rem;
+        font-size: 0.95rem;
+        transition: all 0.2s;
+    }
+    
+    .field-input:focus {
+        outline: none;
+        border-color: var(--color-brand-500);
+        box-shadow: 0 0 0 3px rgba(0, 128, 255, 0.1);
+    }
+    
+    .field-input:disabled {
+        background: var(--color-slate-50);
+        border-color: var(--color-slate-100);
+        color: var(--color-slate-500);
+    }
+    
+    .edit-btn {
+        padding: 0.875rem 1.5rem;
+        background: var(--color-slate-100);
+        border: 2px solid var(--color-slate-200);
+        border-radius: 0.75rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+    
+    .edit-btn:hover {
+        background: var(--color-slate-200);
+    }
+    
+    .save-btn {
+        background: var(--color-green-500);
+        color: white;
+        border-color: var(--color-green-500);
+    }
+    
+    .save-btn:hover {
+        background: #059669;
+    }
+    
+    .user-id {
+        font-family: 'Courier New', monospace;
+        font-size: 0.875rem;
+        color: var(--color-slate-400);
+        background: var(--color-slate-50);
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        display: inline-block;
+    }
+    
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid var(--color-slate-100);
+    }
+    
+    .stat-box {
+        text-align: center;
+    }
+    
+    .stat-value {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--color-slate-900);
+        margin-bottom: 0.25rem;
+    }
+    
+    .stat-label {
+        font-size: 0.875rem;
+        color: var(--color-slate-500);
+    }
+    
+    @media (max-width: 768px) {
+        .profile-section {
+            grid-template-columns: 1fr;
+            text-align: center;
+        }
+        
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-header">
+        <h1>👤 Your Identity</h1>
+    </div>
+    
+    <div class="profile-card">
+        <div class="profile-section">
+            <div class="avatar-section">
+                <img src="{{ user.avatar_url }}" alt="Profile" class="profile-avatar" id="profile-avatar">
+                <div class="avatar-upload" onclick="alert('Avatar upload coming soon!')">
+                    📷
+                </div>
+            </div>
+            
+            <div class="profile-fields">
+                <div class="field-group">
+                    <label class="field-label">Username</label>
+                    <div class="field-value">
+                        <input type="text" id="username-input" class="field-input" value="{{ user.username }}" disabled>
+                        <button class="edit-btn" id="edit-btn" onclick="toggleEdit()">✏️ Edit</button>
+                    </div>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">Email</label>
+                    <input type="email" class="field-input" value="{{ user.email }}" disabled>
+                </div>
+                
+                <div class="field-group">
+                    <label class="field-label">User ID</label>
+                    <div class="user-id">{{ user.id }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="stats-grid">
+            <div class="stat-box">
+                <div class="stat-value">{{ user.balance }}</div>
+                <div class="stat-label">Total Balance</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ user.daily_streak }}</div>
+                <div class="stat-label">Day Streak</div>
+            </div>
+            <div class="stat-box">
+                <div class="stat-value">{{ user.role }}</div>
+                <div class="stat-label">Membership</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let isEditing = false;
+
+function toggleEdit() {
+    isEditing = !isEditing;
+    const input = document.getElementById('username-input');
+    const btn = document.getElementById('edit-btn');
+    
+    if (isEditing) {
+        input.disabled = false;
+        input.focus();
+        btn.innerHTML = '💾 Save';
+        btn.classList.add('save-btn');
+    } else {
+        saveUsername();
+    }
+}
+
+async function saveUsername() {
+    const input = document.getElementById('username-input');
+    const newUsername = input.value.trim();
+    
+    if (!newUsername) {
+        showToast('Username cannot be empty', 'error');
+        return;
+    }
+    
+    // In a real app, you'd call an API to update the username
+    showToast('Username updated successfully!', 'success');
+    
+    input.disabled = true;
+    const btn = document.getElementById('edit-btn');
+    btn.innerHTML = '✏️ Edit';
+    btn.classList.remove('save-btn');
+    isEditing = false;
+}
+</script>
+{% endblock %}
