@@ -16,11 +16,19 @@ from functools import wraps
 # ============================================
 # APP CONFIGURATION
 # ============================================
+# --- FIND THIS LINE IN YOUR CODE ---
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', secrets.token_hex(32))
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///gigspace.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(days=7)
+
+# --- PASTE THIS DIRECTLY BELOW IT ---
+uri = os.getenv("DATABASE_URL")
+if uri and uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
+
+app.config["SQLALCHEMY_DATABASE_URI"] = uri or "sqlite:///local.db" # Fallback for local testing
+app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+# ------------------------------------
+
+# --- THEN YOUR DB INITIALIZATION FOLLOWS ---
 
 db = SQLAlchemy(app)
 login_manager = LoginManager(app)
